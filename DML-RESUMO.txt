@@ -1,0 +1,51 @@
+CREATE
+	Definição: 
+		inserir dados
+	Estrutura:
+		insert into nomeTabela(campo,campo2) values 
+		(valor,'valor')
+		(valor,valor)
+	Exemplo:
+		insert into Cliente(nome,email,rg) values
+		("Heitor", "heitor@gmail.com, "52309834209")
+	
+READ
+	Definição:
+		exibir dados
+	Estrutura:
+		select campo from nomeTabela where condição
+				             order by campo asc/desc
+	Exemplo:
+		select * from medicos(exibe todos os campos da tabela médicos)
+		
+		select crm,nome,especialidade from médicos where especialidade = "Pediatria"(exibe informações 
+		apenas dos Pedriatras)
+		
+		select crm, nome, especialidade from médicos order by nome desc(ordena os nomes dos médicos por
+		ordem decrescente)
+		
+		select nome "Nome do Medico", salario "Salario Atual", salario + salario * 0.1 as "Salario Final"
+		from médicos (Nomeia os Rótulos e Cria uma exibe uma nova coluna com o salario final)
+
+UPDATE
+	Definição:
+		Atualizar um valor
+	Estrutura:
+		update Tabela set campo = valor
+	Exemplo:
+		update aluno set telefone = "90945-05" where RM = "202020"(Atualiza o telefone do RM 202020)
+		
+		update funcionario set salario = salario*1.1 where cargo = 'vendedor' and regiao = 'SP'
+		(aplica um aumento de 10% no salário, somente para os funcionários que são vendedores de SP)
+DELETE
+	Definição:
+		Excluir valores
+	Estrutura:
+		delete from tabela where condicao
+	Exemplo:
+		delete from tb_aluno where RM = "123456";(deleta todas os valores do RM 123456)
+		delete from funcionario where status = "inativo"(deleta todos os valores dos funcinarios inativos
+		
+		
+				
+	
