@@ -167,5 +167,174 @@ CREATE TABLE Entrega (
     entregador_id BIGINT NULL,
     FOREIGN KEY (cliente_id) REFERENCES Cliente(id),
     FOREIGN KEY (pedido_id) REFERENCES Pedido(id),
-    FOREIGN KEY (entregador_id) REFERENCES Entregador(id)
-);
+    FOREIGN KEY (entregador_id) REFERENCES Entregador(-- =========================================
+-- TABELA: FormaPagamento
+-- =========================================
+INSERT INTO FormaPagamento (nome, tipo) VALUES
+('Visa Crédito', 'CARTAO_CREDITO'),
+('Master Débito', 'CARTAO_DEBITO'),
+('Ticket Restaurante', 'VALE_REFEICAO'),
+('Elo Crédito', 'CARTAO_CREDITO'),
+('Alelo Refeição', 'VALE_REFEICAO');
+
+-- =========================================
+-- TABELA: Usuario
+-- =========================================
+INSERT INTO Usuario (nome, senha, tentativasAcesso, dataBloqueio, dataInativacao, status) VALUES
+('João Silva', 'senha123', 0, NULL, NULL, 'ATIVO'),
+('Maria Souza', 'senha456', 2, GETDATE(), NULL, 'BLOQUEADO'),
+('Carlos Pereira', 'senha789', 0, NULL, NULL, 'ATIVO'),
+('Ana Lima', 'senha111', 0, NULL, GETDATE(), 'INATIVO'),
+('Pedro Gomes', 'senha222', 1, NULL, NULL, 'ATIVO');
+
+-- =========================================
+-- TABELA: Permissao
+-- =========================================
+INSERT INTO Permissao (authority) VALUES
+('ROLE_ADMIN'),
+('ROLE_CLIENTE'),
+('ROLE_RESTAURANTE'),
+('ROLE_ENTREGADOR'),
+('ROLE_FINANCEIRO');
+
+-- =========================================
+-- TABELA: Usuario_Permissao
+-- =========================================
+INSERT INTO Usuario_Permissao (usuario_id, authority) VALUES
+(1, 'ROLE_ADMIN'),
+(2, 'ROLE_CLIENTE'),
+(3, 'ROLE_RESTAURANTE'),
+(4, 'ROLE_ENTREGADOR'),
+(5, 'ROLE_FINANCEIRO');
+
+-- =========================================
+-- TABELA: Restaurante
+-- =========================================
+INSERT INTO Restaurante (cnpj, nome, descricao, cep, endereco, taxaDeEntrega, tempoDeEntregaMinimo, tempoDeEntregaMaximo, aprovado, tipoDeCozinha, usuario_id) VALUES
+('11111111000101','China Food','Comida chinesa','01001-000','Rua A, 123',5.50,20,40,1,'CHINESA',1),
+('22222222000102','Sushi House','Comida japonesa','02002-000','Rua B, 456',7.00,30,50,1,'JAPONESA',2),
+('33333333000103','Taco Loco','Comida mexicana','03003-000','Rua C, 789',8.00,25,45,0,'MEXICANA',3),
+('44444444000104','Hamburgueria Top','Lanches e burgers','04004-000','Rua D, 101',6.00,15,30,1,'HAMBURGER',4),
+('55555555000105','Cantina Italiana','Massas e pizzas','05005-000','Rua E, 202',10.00,35,60,0,'ITALIANA',5);
+
+-- =========================================
+-- TABELA: HorarioFuncionamento
+-- =========================================
+INSERT INTO HorarioFuncionamento (diaSemana, horarioAbertura, horarioFechamento, restaurante_id) VALUES
+('SEGUNDA','10:00','22:00',1),
+('TERCA','10:00','22:00',2),
+('QUARTA','10:00','22:00',3),
+('QUINTA','10:00','22:00',4),
+('SEXTA','10:00','23:00',5);
+
+-- =========================================
+-- TABELA: Cardapio
+-- =========================================
+INSERT INTO Cardapio (restaurante_id) VALUES
+(1),
+(2),
+(3),
+(4),
+(5);
+
+-- =========================================
+-- TABELA: ItemCardapio
+-- =========================================
+INSERT INTO ItemCardapio (nome, descricao, tipo, preco, precoPromocional, cardapio_id) VALUES
+('Yakissoba','Macarrão com legumes','PRATO_PRINCIPAL',25.00,20.00,1),
+('Sushi Combo','10 peças variadas','ENTRADA',30.00,25.00,2),
+('Taco','Taco de carne','PRATO_PRINCIPAL',18.00,15.00,3),
+('Hamburguer','Burger artesanal','PRATO_PRINCIPAL',22.00,20.00,4),
+('Pizza','Pizza grande','PRATO_PRINCIPAL',45.00,40.00,5);
+
+-- =========================================
+-- TABELA: Cliente
+-- =========================================
+INSERT INTO Cliente (nome, cpf, email, telefone, validado) VALUES
+('Lucas Almeida','123.456.789-00','lucas@email.com','11999999999',1),
+('Fernanda Lima','987.654.321-00','fernanda@email.com','11888888888',0),
+('Ricardo Santos','111.222.333-44','ricardo@email.com','11777777777',1),
+('Juliana Costa','555.666.777-88','juliana@email.com','11666666666',0),
+('Gabriel Rocha','999.888.777-66','gabriel@email.com','11555555555',1);
+
+-- =========================================
+-- TABELA: Pedido
+-- =========================================
+INSERT INTO Pedido (data, status, restaurante_id) VALUES
+(GETDATE(),'REALIZADO',1),
+(GETDATE(),'PAGO',2),
+(GETDATE(),'CONFIRMADO',3),
+(GETDATE(),'PRONTO',4),
+(GETDATE(),'ENTREGUE',5);
+
+-- =========================================
+-- TABELA: ItemPedido
+-- =========================================
+INSERT INTO ItemPedido (quantidade, observacao, pedido_id, itemCardapio_id) VALUES
+(2,'Sem cebola',1,1),
+(1,'Com molho extra',2,2),
+(3,'Bem picante',3,3),
+(1,'Sem queijo',4,4),
+(2,'Com borda recheada',5,5);
+
+-- =========================================
+-- TABELA: Pagamento
+-- =========================================
+INSERT INTO Pagamento (valor, nome, numero, expiracao, codigo, status, pedido_id, formaPagamento_id) VALUES
+(50.00,'João Silva','4111111111111111','12/28','123','CRIADO',1,1),
+(30.00,'Maria Souza','5500000000000004','11/27','321','CONFIRMADO',2,2),
+(60.00,'Carlos Pereira','6011000000000004','10/26','111','CANCELADO',3,3),
+(22.00,'Ana Lima','3530111333300000','09/25','222','CONFIRMADO',4,4),
+(45.00,'Pedro Gomes','6304000000000000','08/29','333','CRIADO',5,5);
+
+-- =========================================
+-- TABELA: RestauranteFormaPagamento
+-- =========================================
+INSERT INTO RestauranteFormaPagamento (restaurante_id, formaPagamento_id) VALUES
+(1,1),
+(2,2),
+(3,3),
+(4,4),
+(5,5);
+
+-- =========================================
+-- TABELA: Avaliacao
+-- =========================================
+INSERT INTO Avaliacao (nota, comentario, pedido_id) VALUES
+(5,'Excelente comida!',1),
+(4,'Muito bom, mas demorou.',2),
+(3,'Comida razoável.',3),
+(2,'Não gostei muito.',4),
+(1,'Péssimo atendimento.',5);
+
+-- =========================================
+-- TABELA: Entregador
+-- =========================================
+INSERT INTO Entregador (nome, telefone, ativo) VALUES
+('Rafael Martins','11911111111',1),
+('Lucas Souza','11922222222',1),
+('Paulo Oliveira','11933333333',0),
+('Marcos Lima','11944444444',1),
+('Thiago Santos','11955555555',0);
+
+-- =========================================
+-- TABELA: Veiculo
+-- =========================================
+INSERT INTO Veiculo (placa, tipo, entregador_id) VALUES
+('ABC1A11','MOTO',1),
+('BCD2B22','CARRO',2),
+('CDE3C33','BICICLETA',3),
+('DEF4D44','MOTO',4),
+('EFG5E55','OUTRO',5);
+
+-- =========================================
+-- TABELA: Entrega
+-- =========================================
+INSERT INTO Entrega (cliente_id, cep, endereco, complemento, pedido_id, entregador_id) VALUES
+(1,'01001-000','Rua A, 123','Ap 1',1,1),
+(2,'02002-000','Rua B, 456','Casa',2,2),
+(3,'03003-000','Rua C, 789','Fundos',3,3),
+(4,'04004-000','Rua D, 101','Bloco B',4,4),
+(5,'05005-000','Rua E, 202','Loja 5',5,5);
+
+
